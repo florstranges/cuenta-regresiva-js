@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reloj</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="comenzarCuentaRegresiva()">
+
+    <h1>Responde a estas 5 preguntas en menos de 30 segundos!</h1>
+
+    <h2 id="tiempoAlarma">00:30:00</h2>
+
+    <p>1. ¿Cómo te llamas?</p>
+    <input type="text" id="respuesta1">
+
+    <p>2. ¿Cuántos años tenes?</p>
+    <input type="text" id="respuesta2">
+
+    <p>3. ¿Cuál es tu estacion favorita del año?</p>
+    <input type="text" id="respuesta3">
+
+    <p>4. ¿De que signo sos?</p>
+    <input type="text" id="respuesta4">
+
+    <p>5. ¿Cuál es tu color favorito?</p>
+    <input type="text" id="respuesta5">
+
+    <button type="submit" id="envio" onclick="enviarInfo()">Enviar</button>
+    <button id="reinicio" onclick="reiniciarContador()">Reiniciar</button>
+
+
+    <audio id="audioAlarma">
+        <source src="audio/alarma.mp3" type="audio/mpeg">
+        Sonido no habilitado
+    </audio>
+
+    <script>
+        let respuesta1 = document.getElementById('respuesta1');
+        let respuesta2 = document.getElementById('respuesta2');
+        let respuesta3 = document.getElementById('respuesta3');
+        let respuesta4 = document.getElementById('respuesta4');
+        let respuesta5 = document.getElementById('respuesta5');
+
+        let tiempoTerminado;
+        let intervaloDeTiempo;
+
+        function comenzarCuentaRegresiva() {
+            tiempoTerminado = setTimeout(tiempoCumplido, 30000);
+            intervaloDeTiempo = setInterval(ticTac, 1000);
+
+            document.getElementById('tiempoAlarma').textContent = 30;
+        }
+
+        function ticTac() {
+            let tiempoActual = document.getElementById('tiempoAlarma').textContent;
+
+            document.getElementById('tiempoAlarma').textContent = tiempoActual - 1;
+        }
+
+        function tiempoCumplido() {
+            clearInterval(intervaloDeTiempo);
+            document.getElementById('tiempoAlarma').textContent = 0;
+            document.getElementById('audioAlarma').play();
+            alert("Game Over: Se acabó el tiempo");
+        }
+
+
+        function enviarInfo() {
+            clearTimeout(tiempoTerminado);
+            clearInterval(intervaloDeTiempo);
+
+            let fecha =  new Date();
+
+            alert('Fecha: ' + fecha.toLocaleDateString('es-ES') + '\n' + 
+            'Respuesta 1: ' + respuesta1.value + '\n' + 
+            'Respuesta 2: ' + respuesta2.value + '\n' + 
+            'Respuesta 3: ' + respuesta3.value + '\n' + 
+            'Respuesta 4: ' + respuesta4.value + '\n' + 
+            'Respuesta 5: ' + respuesta5.value)
+        }
+
+        function reiniciarContador() {
+            location.reload();
+        }
+
+    </script>
+</body>
+
+</html>
